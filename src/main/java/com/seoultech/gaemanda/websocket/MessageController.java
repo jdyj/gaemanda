@@ -13,12 +13,11 @@ public class MessageController {
 
   private final SimpMessageSendingOperations simpMessageSendingOperations;
 
-  @MessageMapping("/hello")
-  public void message(Message message) {
-
-    log.info("message 확인 -> {}", message.toString());
-    simpMessageSendingOperations.convertAndSend("/sub/room/" + message.getChannelId(), message);
-
+  @MessageMapping("/chat")
+  public void enter(Message message) {
+    log.info("memberId -> {}", message.getSender());
+    simpMessageSendingOperations.convertAndSend("/sub/room/" + message.getChannelId(),
+        message);
   }
 
 
