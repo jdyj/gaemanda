@@ -1,5 +1,6 @@
 package com.seoultech.gaemanda.websocket;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -7,11 +8,12 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
-public class Message {
+public class MapMessage {
 
   private String type;
-  private String sender;
-  private String channelId;
+  private Long sender;
+  private Double lng;
+  private Double lat;
   private Object data;
 
 }

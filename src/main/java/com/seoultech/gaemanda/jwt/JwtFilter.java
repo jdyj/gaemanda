@@ -18,10 +18,12 @@ import java.io.IOException;
 import java.security.Key;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
 @Slf4j
+@Component
 public class JwtFilter implements Filter {
 
   public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -41,14 +43,10 @@ public class JwtFilter implements Filter {
 
       String jwt = resolveToken(httpRequest);
       String requestURI = httpRequest.getRequestURI();
-
       // 2. validateToken 으로 토큰 유효성 검사
-      if (isCheckPath(requestURI) && (!StringUtils.hasText(jwt) || !validateToken(jwt,
-          httpRequest))) {
-        throw new IllegalAccessException("유효하지 않는 토큰입니다");
-      }
+      validateToken(jwt, httpRequest);
       chain.doFilter(request, response);
-    } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException | IllegalAccessException e) {
+    } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException e) {
       HttpServletResponse res = (HttpServletResponse) response;
       res.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
     } catch (Exception e) {
@@ -71,31 +69,28 @@ public class JwtFilter implements Filter {
   }
 
 
-  private boolean validateToken(String token, HttpServletRequest servletRequest) {
+  private void validateToken(String token, HttpServletRequest servletRequest) {
 
     byte[] decode = Decoders.BASE64.decode(JwtConfig.JWT_SECRET);
     Key key = Keys.hmacShaKeyFor(decode);
 
     try {
-      Claims claims = Jwts.parserBuilder()
-          .setSigningKey(key)
-          .build()
-          .parseClaimsJws(token)
-          .getBody();
-      servletRequest.setAttribute("memberId", claims.get("jti", String.class));
-      return true;
+      if (token != null) {
+        Claims claims = Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+        servletRequest.setAttribute("memberId", claims.get("jti", String.class));
+      }
     } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
       log.info("잘못된 JWT 서명입니다.");
-      throw e;
     } catch (ExpiredJwtException e) {
       log.info("만료된 JWT 토큰입니다.");
-      throw e;
     } catch (UnsupportedJwtException e) {
       log.info("지원되지 않는 JWT 토큰입니다.");
-      throw e;
     } catch (IllegalArgumentException e) {
       log.info("JWT 토큰이 잘못되었습니다.");
-      throw e;
     }
   }
 

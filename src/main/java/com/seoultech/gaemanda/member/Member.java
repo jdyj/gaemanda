@@ -22,6 +22,8 @@ public class Member {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  private String email;
+
   private String address;
 
   @Setter
@@ -37,6 +39,10 @@ public class Member {
   @OneToOne
   @JoinColumn(name = "image_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
   private Image profileImage;
+
+  public Member(String email) {
+    this.email = email;
+  }
 
   public Member(String address, String nickname, String birthday,
       String gender, Image profileImage) {

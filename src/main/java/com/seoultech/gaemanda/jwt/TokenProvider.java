@@ -24,20 +24,20 @@ public class TokenProvider {
     this.key = Keys.hmacShaKeyFor(decode);
   }
 
-  public TokenDto generateToken(String id) {
+  public TokenDto generateToken(Long id) {
 
     long now = (new Date()).getTime();
 
     Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
     String accessToken = Jwts.builder()
-        .setId(id)
+        .setId(String.valueOf(id))
         .setExpiration(accessTokenExpiresIn)
         .signWith(key, SignatureAlgorithm.HS512)
         .compact();
 
     Date refreshTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
     String refreshToken = Jwts.builder()
-        .setId(id)
+        .setId(String.valueOf(id))
         .setExpiration(refreshTokenExpiresIn)
         .signWith(key, SignatureAlgorithm.HS512)
         .compact();

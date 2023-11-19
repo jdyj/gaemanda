@@ -1,6 +1,5 @@
 package com.seoultech.gaemanda.pet;
 
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 import com.seoultech.gaemanda.dto.ListResponse;
@@ -10,13 +9,14 @@ import com.seoultech.gaemanda.member.MemberService;
 import com.seoultech.gaemanda.pet.dto.EditPetProfileRequest;
 import com.seoultech.gaemanda.pet.dto.PetProfileRequest;
 import com.seoultech.gaemanda.pet.dto.PetProfileResponse;
+import com.seoultech.gaemanda.pet.dto.PetSpeciesResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +39,7 @@ public class PetController {
   public ResponseEntity<ListResponse<PetProfileResponse>> getProfile(@LoginUser Long memberId) {
     Member member = memberService.findByMemberId(memberId);
     return ResponseEntity.ok()
-        .body(ListResponse.from(petService.getProfile(member)));
+        .body(ListResponse.from(petService.getListProfile(member)));
   }
 
   @Operation(summary = "펫 프로필 생성")
@@ -54,5 +54,23 @@ public class PetController {
   @PatchMapping(value = "/profile", consumes = MULTIPART_FORM_DATA_VALUE)
   public void editProfile(@ModelAttribute EditPetProfileRequest request) {
     petService.editProfile(request);
+  }
+
+  @Operation(summary = "첫번째 펫 조회")
+  @GetMapping("/profile/first")
+  public ResponseEntity<PetProfileResponse> getFirstProfile(@LoginUser Long memberId) {
+    Member member = memberService.findByMemberId(memberId);
+    return ResponseEntity.ok()
+        .body(petService.getFirstProfile(member));
+  }
+
+  @Operation(summary = "펫 종류 조회")
+  @GetMapping("/species")
+  public ResponseEntity<ListResponse<PetSpeciesResponse>> getSpecies() {
+    List<PetSpeciesResponse> collect = Arrays.stream(Species.values())
+        .map(species -> PetSpeciesResponse.from(species.name()))
+        .collect(Collectors.toList());
+    return ResponseEntity.ok()
+        .body(ListResponse.from(collect));
   }
 }

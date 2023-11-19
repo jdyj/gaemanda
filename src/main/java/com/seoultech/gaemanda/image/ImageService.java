@@ -27,6 +27,7 @@ public class ImageService {
 
   private final ImageRepository imageRepository;
 
+  @Value("{file.dir}")
   private String fileDir;
 
   public String getFullPath(String fileName) {

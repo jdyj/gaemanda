@@ -4,6 +4,8 @@ import com.seoultech.gaemanda.image.Image;
 import com.seoultech.gaemanda.member.Member;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -35,9 +37,9 @@ public class Pet {
   @Setter
   private String birthday;
 
-  // TODO : Enum 변환
   @Setter
-  private String species;
+  @Enumerated(EnumType.STRING)
+  private Species species;
 
   private String gender;
 
@@ -48,15 +50,15 @@ public class Pet {
   private Boolean isNeutered;
 
   @Setter
-  private String personality;
+  private Integer personality;
 
   @Setter
   @OneToOne
   @JoinColumn(name = "image_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
   private Image profileImage;
 
-  public Pet(Member member, String name, String birthday, String species, String gender,
-      Integer weight, Boolean isNeutered, String personality,
+  public Pet(Member member, String name, String birthday, Species species, String gender,
+      Integer weight, Boolean isNeutered, Integer personality,
       Image profileImage) {
     this.member = member;
     this.name = name;

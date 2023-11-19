@@ -16,7 +16,7 @@ public class EditPetProfileRequest {
   private String species;
   private Integer weight;
   private Boolean isNeutered;
-  private String personality;
+  private Integer personality;
   private MultipartFile profileImage;
   private Boolean isFileChange;
 

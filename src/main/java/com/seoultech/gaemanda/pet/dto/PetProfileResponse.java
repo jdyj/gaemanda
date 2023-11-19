@@ -17,13 +17,13 @@ public class PetProfileResponse {
   private String species;
   private Integer weight;
   private Boolean isNeutered;
-  private String personality;
+  private Integer personality;
   private String profileImage;
 
   public static PetProfileResponse from(Pet pet) {
     return new PetProfileResponse(pet.getId(), pet.getName(),
         DateUtil.getFullAge(pet.getBirthday()), pet.getBirthday(),
-        pet.getSpecies(), pet.getWeight(), pet.getIsNeutered(), pet.getPersonality(),
+        pet.getSpecies().getName(), pet.getWeight(), pet.getIsNeutered(), pet.getPersonality(),
         pet.getProfileImage().getStoreFileName());
   }
 

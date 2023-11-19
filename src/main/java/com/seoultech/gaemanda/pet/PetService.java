@@ -3,7 +3,6 @@ package com.seoultech.gaemanda.pet;
 import com.seoultech.gaemanda.image.Image;
 import com.seoultech.gaemanda.image.ImageService;
 import com.seoultech.gaemanda.member.Member;
-import com.seoultech.gaemanda.member.MemberService;
 import com.seoultech.gaemanda.pet.dto.EditPetProfileRequest;
 import com.seoultech.gaemanda.pet.dto.PetProfileRequest;
 import com.seoultech.gaemanda.pet.dto.PetProfileResponse;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -24,16 +22,25 @@ public class PetService {
   private final PetRepository petRepository;
   private final ImageService imageService;
 
-  public List<PetProfileResponse> getProfile(Member member) {
+  public List<PetProfileResponse> getListProfile(Member member) {
     List<Pet> petList = findByMember(member);
     return petList.stream()
         .map(PetProfileResponse::from)
         .collect(Collectors.toList());
   }
 
+  public PetProfileResponse getFirstProfile(Member member) {
+    List<Pet> petList = findByMember(member);
+    return petList.stream()
+        .map(PetProfileResponse::from)
+        .findFirst()
+        .orElseThrow();
+  }
+
   public Long makeProfile(PetProfileRequest request, Member member) {
     Image image = imageService.storeFile(request.getProfileImage());
-    Pet pet = new Pet(member, request.getName(), request.getBirthday(), request.getSpecies(),
+    Pet pet = new Pet(member, request.getName(), request.getBirthday(),
+        Species.valueOf(request.getSpecies()),
         "gender",
         request.getWeight(), request.getIsNeutered(), request.getPersonality(), image);
 
@@ -50,7 +57,7 @@ public class PetService {
     pet.setIsNeutered(request.getIsNeutered());
     pet.setPersonality(request.getPersonality());
     pet.setName(request.getName());
-    pet.setSpecies(request.getSpecies());
+    pet.setSpecies(Species.valueOf(request.getSpecies()));
     pet.setWeight(request.getWeight());
 
     // 기본이미지
