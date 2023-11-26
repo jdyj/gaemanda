@@ -3,6 +3,7 @@ package com.seoultech.gaemanda.pet;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 import com.seoultech.gaemanda.dto.ListResponse;
+import com.seoultech.gaemanda.dto.SingleResponse;
 import com.seoultech.gaemanda.login.LoginUser;
 import com.seoultech.gaemanda.member.Member;
 import com.seoultech.gaemanda.member.MemberService;
@@ -44,10 +45,10 @@ public class PetController {
 
   @Operation(summary = "펫 프로필 생성")
   @PostMapping("/profile")
-  public ResponseEntity<Long> getProfile(@LoginUser Long memberId, PetProfileRequest request) {
+  public ResponseEntity<SingleResponse<Long>> getProfile(@LoginUser Long memberId, PetProfileRequest request) {
     Member member = memberService.findByMemberId(memberId);
     return ResponseEntity.ok()
-        .body(petService.makeProfile(request, member));
+        .body(SingleResponse.from(petService.makeProfile(request, member)));
   }
 
   @Operation(summary = "펫 프로필 수정")
@@ -58,10 +59,10 @@ public class PetController {
 
   @Operation(summary = "첫번째 펫 조회")
   @GetMapping("/profile/first")
-  public ResponseEntity<PetProfileResponse> getFirstProfile(@LoginUser Long memberId) {
+  public ResponseEntity<SingleResponse<PetProfileResponse>> getFirstProfile(@LoginUser Long memberId) {
     Member member = memberService.findByMemberId(memberId);
     return ResponseEntity.ok()
-        .body(petService.getFirstProfile(member));
+        .body(SingleResponse.from(petService.getFirstProfile(member)));
   }
 
   @Operation(summary = "펫 종류 조회")

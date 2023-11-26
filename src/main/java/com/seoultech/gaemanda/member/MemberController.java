@@ -2,6 +2,7 @@ package com.seoultech.gaemanda.member;
 
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
+import com.seoultech.gaemanda.dto.SingleResponse;
 import com.seoultech.gaemanda.login.LoginUser;
 import com.seoultech.gaemanda.member.dto.EditMemberProfileRequest;
 import com.seoultech.gaemanda.member.dto.MemberOAuthRequest;
@@ -31,20 +32,20 @@ public class MemberController {
 
   @Operation(summary = "카카오 로그인")
   @PostMapping("/kakao")
-  public ResponseEntity<MemberOAuthResponse> kakaoLogin(@RequestBody MemberOAuthRequest request) {
-    return ResponseEntity.ok().body(memberService.kakaoLogin(request.getAccessToken()));
+  public ResponseEntity<SingleResponse<MemberOAuthResponse>> kakaoLogin(@RequestBody MemberOAuthRequest request) {
+    return ResponseEntity.ok().body(SingleResponse.from(memberService.kakaoLogin(request.getAccessToken())));
   }
 
   @Operation(summary = "멤버 프로필 조회")
   @GetMapping("/profile")
-  public ResponseEntity<MemberProfileResponse> getProfile(@LoginUser Long memberId) {
-    return ResponseEntity.ok().body(memberService.getProfile(memberId));
+  public ResponseEntity<SingleResponse<MemberProfileResponse>> getProfile(@LoginUser Long memberId) {
+    return ResponseEntity.ok().body(SingleResponse.from(memberService.getProfile(memberId)));
   }
 
   @Operation(summary = "멤버 프로필 생성")
   @PostMapping(value = "/profile", consumes = MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<Long> makeProfile(@ModelAttribute MemberProfileDto.Request request) {
-    return ResponseEntity.ok().body(memberService.makeProfile(request));
+  public ResponseEntity<SingleResponse<Long>> makeProfile(@ModelAttribute MemberProfileDto.Request request) {
+    return ResponseEntity.ok().body(SingleResponse.from(memberService.makeProfile(request)));
   }
 
   @Operation(summary = "멤버 프로필 수정")
