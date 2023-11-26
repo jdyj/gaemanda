@@ -9,6 +9,7 @@ import com.seoultech.gaemanda.member.dto.MemberOAuthResponse;
 import com.seoultech.gaemanda.member.dto.MemberProfileDto;
 import com.seoultech.gaemanda.member.dto.MemberProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,8 @@ public class MemberController {
 
   @Operation(summary = "멤버 프로필 조회")
   @GetMapping("/profile")
-  public ResponseEntity<MemberProfileResponse> getProfile(@LoginUser Long memberId) {
+  public ResponseEntity<MemberProfileResponse> getProfile(
+      @Parameter(hidden = true) @LoginUser Long memberId) {
     return ResponseEntity.ok().body(memberService.getProfile(memberId));
   }
 
@@ -49,7 +51,7 @@ public class MemberController {
 
   @Operation(summary = "멤버 프로필 수정")
   @PatchMapping(value = "/profile", consumes = MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<Void> editProfile(@LoginUser Long memberId,
+  public ResponseEntity<Void> editProfile(@Parameter(hidden = true) @LoginUser Long memberId,
       @ModelAttribute EditMemberProfileRequest request) {
     memberService.editProfile(memberId, request);
     return new ResponseEntity<>(HttpStatus.OK);
