@@ -17,5 +17,6 @@ public class PetProfileRequest {
   private List<Integer> personalities;
   private MultipartFile profileImage;
   private Boolean isFileChange;
+  private String gender;
 
 }

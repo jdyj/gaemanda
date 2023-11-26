@@ -49,6 +49,7 @@ public class Pet {
   @Enumerated(EnumType.STRING)
   private Species species;
 
+  @Setter
   @Getter
   private String gender;
 

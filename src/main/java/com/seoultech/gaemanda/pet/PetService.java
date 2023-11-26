@@ -41,7 +41,7 @@ public class PetService {
     Image image = imageService.storeFile(request.getProfileImage());
     Pet pet = new Pet(member, request.getName(), request.getBirthday(),
         Species.valueOf(request.getSpecies()),
-        "gender",
+        request.getGender(),
         request.getWeight(), request.getIsNeutered(), request.getPersonalities(), image);
 
     Pet savedPet = petRepository.save(pet);
@@ -59,6 +59,7 @@ public class PetService {
     pet.setName(request.getName());
     pet.setSpecies(Species.valueOf(request.getSpecies()));
     pet.setWeight(request.getWeight());
+    pet.setGender(request.getGender());
 
     // 기본이미지
     if (request.getProfileImage() == null && request.getIsFileChange()) {
