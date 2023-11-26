@@ -1,5 +1,6 @@
 package com.seoultech.gaemanda.pet.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class EditPetProfileRequest {
   private String species;
   private Integer weight;
   private Boolean isNeutered;
-  private Integer personality;
+  private List<Integer> personalities;
   private MultipartFile profileImage;
   private Boolean isFileChange;
 

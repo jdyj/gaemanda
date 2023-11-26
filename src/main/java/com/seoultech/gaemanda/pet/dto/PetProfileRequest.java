@@ -1,5 +1,6 @@
 package com.seoultech.gaemanda.pet.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +14,7 @@ public class PetProfileRequest {
   private String species;
   private Integer weight;
   private Boolean isNeutered;
-  private Integer personality;
+  private List<Integer> personalities;
   private MultipartFile profileImage;
   private Boolean isFileChange;
 

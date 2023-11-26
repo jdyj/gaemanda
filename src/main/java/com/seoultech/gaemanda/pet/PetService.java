@@ -42,7 +42,7 @@ public class PetService {
     Pet pet = new Pet(member, request.getName(), request.getBirthday(),
         Species.valueOf(request.getSpecies()),
         "gender",
-        request.getWeight(), request.getIsNeutered(), request.getPersonality(), image);
+        request.getWeight(), request.getIsNeutered(), request.getPersonalities(), image);
 
     Pet savedPet = petRepository.save(pet);
 
@@ -55,7 +55,7 @@ public class PetService {
 
     pet.setBirthday(request.getBirthday());
     pet.setIsNeutered(request.getIsNeutered());
-    pet.setPersonality(request.getPersonality());
+    pet.setPersonalities(request.getPersonalities());
     pet.setName(request.getName());
     pet.setSpecies(Species.valueOf(request.getSpecies()));
     pet.setWeight(request.getWeight());
