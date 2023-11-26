@@ -39,11 +39,8 @@ public class MemberController {
 
   @Operation(summary = "멤버 프로필 조회")
   @GetMapping("/profile")
-  public ResponseEntity<SingleResponse<MemberProfileResponse>> getProfile(@LoginUser Long memberId) {
+  public ResponseEntity<SingleResponse<MemberProfileResponse>> getProfile(@Parameter(hidden = true) @LoginUser Long memberId) {
     return ResponseEntity.ok().body(SingleResponse.from(memberService.getProfile(memberId)));
-  public ResponseEntity<MemberProfileResponse> getProfile(
-      @Parameter(hidden = true) @LoginUser Long memberId) {
-    return ResponseEntity.ok().body(memberService.getProfile(memberId));
   }
 
   @Operation(summary = "멤버 프로필 생성")
