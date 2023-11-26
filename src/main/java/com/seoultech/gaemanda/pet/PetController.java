@@ -12,6 +12,7 @@ import com.seoultech.gaemanda.pet.dto.PetProfileRequest;
 import com.seoultech.gaemanda.pet.dto.PetProfileResponse;
 import com.seoultech.gaemanda.pet.dto.PetSpeciesResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,8 @@ public class PetController {
 
   @Operation(summary = "펫 프로필 조회")
   @GetMapping("/profile")
-  public ResponseEntity<ListResponse<PetProfileResponse>> getProfile(@LoginUser Long memberId) {
+  public ResponseEntity<ListResponse<PetProfileResponse>> getProfile(
+      @Parameter(hidden = true) @LoginUser Long memberId) {
     Member member = memberService.findByMemberId(memberId);
     return ResponseEntity.ok()
         .body(ListResponse.from(petService.getListProfile(member)));
@@ -45,6 +47,8 @@ public class PetController {
 
   @Operation(summary = "펫 프로필 생성")
   @PostMapping("/profile")
+  public ResponseEntity<Long> getProfile(@Parameter(hidden = true) @LoginUser Long memberId,
+      PetProfileRequest request) {
   public ResponseEntity<SingleResponse<Long>> getProfile(@LoginUser Long memberId, PetProfileRequest request) {
     Member member = memberService.findByMemberId(memberId);
     return ResponseEntity.ok()
@@ -60,6 +64,8 @@ public class PetController {
   @Operation(summary = "첫번째 펫 조회")
   @GetMapping("/profile/first")
   public ResponseEntity<SingleResponse<PetProfileResponse>> getFirstProfile(@LoginUser Long memberId) {
+  public ResponseEntity<PetProfileResponse> getFirstProfile(
+      @Parameter(hidden = true) @LoginUser Long memberId) {
     Member member = memberService.findByMemberId(memberId);
     return ResponseEntity.ok()
         .body(SingleResponse.from(petService.getFirstProfile(member)));

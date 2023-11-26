@@ -2,9 +2,9 @@ package com.seoultech.gaemanda.pet.dto;
 
 import com.seoultech.gaemanda.pet.Pet;
 import com.seoultech.gaemanda.util.DateUtil;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
@@ -17,13 +17,13 @@ public class PetProfileResponse {
   private String species;
   private Integer weight;
   private Boolean isNeutered;
-  private Integer personality;
+  private List<Integer> personalities;
   private String profileImage;
 
   public static PetProfileResponse from(Pet pet) {
     return new PetProfileResponse(pet.getId(), pet.getName(),
         DateUtil.getFullAge(pet.getBirthday()), pet.getBirthday(),
-        pet.getSpecies().getName(), pet.getWeight(), pet.getIsNeutered(), pet.getPersonality(),
+        pet.getSpecies().getName(), pet.getWeight(), pet.getIsNeutered(), pet.getPersonalities(),
         pet.getProfileImage().getStoreFileName());
   }
 
