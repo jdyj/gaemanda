@@ -1,8 +1,9 @@
 package com.seoultech.gaemanda.websocket;
 
 import com.seoultech.gaemanda.chat.ChatService;
-import com.seoultech.gaemanda.room.Room;
-import com.seoultech.gaemanda.room.RoomService;
+import com.seoultech.gaemanda.member.Member;
+import com.seoultech.gaemanda.member.MemberService;
+import com.seoultech.gaemanda.util.DistanceUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class MessageController {
 
   private final SimpMessageSendingOperations simpMessageSendingOperations;
   private final ChatService chatService;
+  private final MemberService memberService;
   private final Map<Long, MapInfo> map = new HashMap<>();
 
   @MessageMapping("/chat")
@@ -34,11 +36,14 @@ public class MessageController {
 
   @MessageMapping("/map")
   public void mapEnter(MapMessage message) {
-    log.info("map enter memberId -> {}", message.getSender());
-    map.put(message.getSender(), new MapInfo(message.getSender(), message.getLng(), message.getLng()));
+    log.info("map enter memberId -> {}", message.getSenderId());
+    map.put(message.getSenderId(), new MapInfo(message.getSenderId(), message.getPetId(), message.getLng(), message.getLng()));
+
+    Member member = memberService.findByMemberId(message.getSenderId());
 
     List<MapInfo> collect = map.entrySet().stream()
-            .filter((entry) -> !entry.getKey().equals(message.getSender()))
+            .filter((entry) -> !entry.getKey().equals(message.getSenderId()))
+            .filter(entry -> DistanceUtil.distance(member.getLatitude(), member.getLongitude(), entry.getValue().getLat(), entry.getValue().getLng()) > 500.0)
             .map(Map.Entry::getValue)
             .collect(Collectors.toList());
 
@@ -49,6 +54,7 @@ public class MessageController {
   @AllArgsConstructor
   static class MapInfo {
     private Long memberId;
+    private Long petId;
     private Double lng;
     private Double lat;
   }

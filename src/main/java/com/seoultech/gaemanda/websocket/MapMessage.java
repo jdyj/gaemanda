@@ -10,7 +10,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class MapMessage {
 
-  private Long sender;
+  private Long senderId;
+  private Long petId;
   private Double lng;
   private Double lat;
 

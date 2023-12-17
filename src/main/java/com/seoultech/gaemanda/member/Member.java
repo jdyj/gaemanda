@@ -26,6 +26,10 @@ public class Member {
 
   private String address;
 
+  private Double latitude;
+
+  private Double Longitude;
+
   @Setter
   private String nickname;
 
@@ -47,9 +51,10 @@ public class Member {
     this.email = email;
   }
 
-  public Member(String address, String nickname, String birthday,
-      String gender, Image profileImage) {
+  public Member(String address, Double latitude, Double longitude, String nickname, String birthday, String gender, Image profileImage) {
     this.address = address;
+    this.latitude = latitude;
+    Longitude = longitude;
     this.nickname = nickname;
     this.birthday = birthday;
     this.gender = gender;

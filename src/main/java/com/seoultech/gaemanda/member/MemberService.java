@@ -65,7 +65,7 @@ public class MemberService {
 
   public Long makeProfile(MemberProfileDto.Request request) {
     Image image = imageService.storeFile(request.getProfileImage());
-    Member member = new Member(request.getAddress(), request.getNickname(), request.getBirthday(),
+    Member member = new Member(request.getJibunAddress(), request.getLatitude(), request.getLongitude(), request.getNickname(), request.getBirthday(),
         request.getGender(), image);
 
     Member savedMember = memberRepository.save(member);

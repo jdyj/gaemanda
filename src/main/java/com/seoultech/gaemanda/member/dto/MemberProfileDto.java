@@ -17,7 +17,10 @@ public class MemberProfileDto {
     private String gender;
     private Integer age;
     private String birthday;
-    private String address;
+    private String jibunAddress;
+    private Double latitude;
+    private Double longitude;
+
   }
 
   @Data

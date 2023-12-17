@@ -1,9 +1,9 @@
 package com.seoultech.gaemanda.member.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class MemberOAuthRequest {
 
