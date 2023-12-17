@@ -4,11 +4,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 import com.seoultech.gaemanda.dto.SingleResponse;
 import com.seoultech.gaemanda.login.LoginUser;
-import com.seoultech.gaemanda.member.dto.EditMemberProfileRequest;
-import com.seoultech.gaemanda.member.dto.MemberOAuthRequest;
-import com.seoultech.gaemanda.member.dto.MemberOAuthResponse;
-import com.seoultech.gaemanda.member.dto.MemberProfileDto;
-import com.seoultech.gaemanda.member.dto.MemberProfileResponse;
+import com.seoultech.gaemanda.member.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +57,14 @@ public class MemberController {
   @GetMapping("/duplication/{nickname}")
   public ResponseEntity<Void> duplicateNickname(@PathVariable String nickname) {
     memberService.checkNickname(nickname);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @Operation(summary = "")
+  @PostMapping("/deviceToken")
+  public ResponseEntity<Void> deviceToken(@RequestBody MemberDeviceTokenRequest request,
+                  @Parameter(hidden = true) @LoginUser Long memberId) {
+    memberService.setDeviceToken(memberId, request.getDeviceToken());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 

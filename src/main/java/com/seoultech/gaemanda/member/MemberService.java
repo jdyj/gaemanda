@@ -8,10 +8,8 @@ import com.seoultech.gaemanda.image.Image;
 import com.seoultech.gaemanda.image.ImageService;
 import com.seoultech.gaemanda.jwt.TokenDto;
 import com.seoultech.gaemanda.jwt.TokenProvider;
-import com.seoultech.gaemanda.member.dto.EditMemberProfileRequest;
-import com.seoultech.gaemanda.member.dto.MemberOAuthResponse;
-import com.seoultech.gaemanda.member.dto.MemberProfileDto;
-import com.seoultech.gaemanda.member.dto.MemberProfileResponse;
+import com.seoultech.gaemanda.member.dto.*;
+
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -105,6 +103,12 @@ public class MemberService {
   public Member findByMemberId(Long memberId) {
     return memberRepository.findById(memberId)
         .orElseThrow();
+  }
+
+  public void setDeviceToken(Long memberId, String deviceToken) {
+    Member member = findByMemberId(memberId);
+    member.setDeviceToken(deviceToken);
+    memberRepository.saveAndFlush(member);
   }
 
   private String get(String apiUrl, String accessToken) {

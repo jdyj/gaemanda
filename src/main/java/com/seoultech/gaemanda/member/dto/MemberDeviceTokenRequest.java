@@ -1,12 +1,12 @@
 package com.seoultech.gaemanda.member.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemberOAuthRequest {
+public class MemberDeviceTokenRequest {
 
-    private String accessToken;
-
+    private String deviceToken;
 }

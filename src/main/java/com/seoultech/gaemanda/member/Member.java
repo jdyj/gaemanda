@@ -40,6 +40,9 @@ public class Member {
   @JoinColumn(name = "image_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
   private Image profileImage;
 
+  @Setter
+  private String deviceToken;
+
   public Member(String email) {
     this.email = email;
   }

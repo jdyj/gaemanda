@@ -16,10 +16,9 @@ public class Note {
     private String deviceToken;
 
     public static Note makeNote(Map<String, String> collect) {
-
         Map<String, String> tempData = new HashMap<>(collect);
         return new Note(
-                "DAYO",
+                "Gaemanda",
                 tempData.get("content"),
                 tempData,
                 tempData.get("image"),
