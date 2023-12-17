@@ -35,6 +35,9 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20210307'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'
+    implementation group: 'com.google.auth', name: 'google-auth-library-credentials', version: '1.5.3'
+    implementation group: 'com.google.auth', name: 'google-auth-library-oauth2-http', version: '1.5.3'
     runtimeOnly('io.jsonwebtoken:jjwt-impl:0.11.2')
     runtimeOnly('io.jsonwebtoken:jjwt-jackson:0.11.2')
 

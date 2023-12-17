@@ -19,8 +19,6 @@ public class Room {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String name;
-
   @ManyToOne
   @JoinColumn(name = "member_id1", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
   private Member member1;
@@ -29,4 +27,8 @@ public class Room {
   @JoinColumn(name = "member_id2", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
   private Member member2;
 
+  public Room(Member member1, Member member2) {
+    this.member1 = member1;
+    this.member2 = member2;
+  }
 }

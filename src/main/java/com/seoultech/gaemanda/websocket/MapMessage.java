@@ -10,10 +10,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class MapMessage {
 
-  private String type;
   private Long sender;
   private Double lng;
   private Double lat;
-  private Object data;
 
 }

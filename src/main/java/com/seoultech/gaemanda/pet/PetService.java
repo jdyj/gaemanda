@@ -4,6 +4,7 @@ import com.seoultech.gaemanda.image.Image;
 import com.seoultech.gaemanda.image.ImageService;
 import com.seoultech.gaemanda.member.Member;
 import com.seoultech.gaemanda.pet.dto.EditPetProfileRequest;
+import com.seoultech.gaemanda.pet.dto.PetProfileByMap;
 import com.seoultech.gaemanda.pet.dto.PetProfileRequest;
 import com.seoultech.gaemanda.pet.dto.PetProfileResponse;
 import java.util.List;
@@ -81,6 +82,14 @@ public class PetService {
 
   public List<Pet> findByMember(Member member) {
     return petRepository.findByMember(member);
+  }
+
+  public PetProfileByMap getPetProfileForMap(Member member) {
+    List<Pet> petByMember = petRepository.findByMember(member);
+    return petByMember.stream()
+            .findFirst()
+            .map(PetProfileByMap::from)
+            .orElseThrow();
   }
 
 }

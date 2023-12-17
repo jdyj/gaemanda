@@ -7,10 +7,7 @@ import com.seoultech.gaemanda.dto.SingleResponse;
 import com.seoultech.gaemanda.login.LoginUser;
 import com.seoultech.gaemanda.member.Member;
 import com.seoultech.gaemanda.member.MemberService;
-import com.seoultech.gaemanda.pet.dto.EditPetProfileRequest;
-import com.seoultech.gaemanda.pet.dto.PetProfileRequest;
-import com.seoultech.gaemanda.pet.dto.PetProfileResponse;
-import com.seoultech.gaemanda.pet.dto.PetSpeciesResponse;
+import com.seoultech.gaemanda.pet.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import java.util.Arrays;
@@ -20,12 +17,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -77,4 +69,13 @@ public class PetController {
     return ResponseEntity.ok()
         .body(ListResponse.from(collect));
   }
+
+  @Operation(summary = "상대방 펫 조회 (map 용)")
+  @GetMapping("/{memberId}")
+  public ResponseEntity<PetProfileByMap> getPetProfileForMap(@PathVariable Long memberId) {
+    Member member = memberService.findByMemberId(memberId);
+    return ResponseEntity.ok()
+            .body(petService.getPetProfileForMap(member));
+  }
+
 }

@@ -9,7 +9,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ChatMessage {
 
-  private String type;
   private Long sender;
   private Long roomId;
   private String message;

@@ -1,5 +1,6 @@
 package com.seoultech.gaemanda.chat;
 
+import com.seoultech.gaemanda.BaseTimeEntity;
 import com.seoultech.gaemanda.member.Member;
 import com.seoultech.gaemanda.room.Room;
 import jakarta.persistence.ConstraintMode;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-public class Chat {
+public class Chat extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
