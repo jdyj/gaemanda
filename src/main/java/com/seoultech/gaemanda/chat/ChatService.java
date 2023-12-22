@@ -9,11 +9,13 @@ import com.seoultech.gaemanda.room.Room;
 import com.seoultech.gaemanda.room.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ChatService {
 
@@ -33,6 +35,11 @@ public class ChatService {
     Note note = Note.makeNote(makeChatNote(sender, room.getMember2(), message));
     fcmMessageService.sendMessage(note);
     return savedChat.getId();
+  }
+
+  public Chat chatMsg(Room room, Member member) {
+    return chatRepository.lastChat(room)
+            .orElseGet(() -> new Chat("", room, member));
   }
 
   private Map<String, String> makeChatNote(Member sender, Member member, String message) {

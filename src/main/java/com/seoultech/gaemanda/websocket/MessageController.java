@@ -27,11 +27,11 @@ public class MessageController {
 
   @MessageMapping("/chat")
   public void chatEnter(ChatMessage message) {
-    log.info("chat enter memberId -> {}, channelId -> {}", message.getSender(),
+    log.info("chat enter memberId -> {}, channelId -> {}", message.getSenderId(),
         message.getRoomId());
     simpMessageSendingOperations.convertAndSend("/sub/room/" + message.getRoomId(),
         message);
-    chatService.save(message.getRoomId(), message.getSender(), message.getMessage());
+    chatService.save(message.getRoomId(), message.getSenderId(), message.getMessage());
   }
 
   @MessageMapping("/map")

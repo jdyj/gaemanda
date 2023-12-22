@@ -55,7 +55,7 @@ public class MemberService {
     }
 
     TokenDto token = tokenProvider.generateToken(member.getId());
-    return MemberOAuthResponse.from(token);
+    return MemberOAuthResponse.from(token, member.getId());
   }
 
   public MemberProfileResponse getProfile(Long memberId) {

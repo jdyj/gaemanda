@@ -10,9 +10,10 @@ public class MemberOAuthResponse {
 
   private String accessToken;
   private String refreshToken;
+  private Long memberId;
 
-  public static MemberOAuthResponse from(TokenDto token) {
-    return new MemberOAuthResponse(token.getAccessToken(), token.getRefreshToken());
+  public static MemberOAuthResponse from(TokenDto token, Long memberId) {
+    return new MemberOAuthResponse(token.getAccessToken(), token.getRefreshToken(), memberId);
   }
 
 }
