@@ -3,6 +3,8 @@ package com.seoultech.gaemanda.websocket;
 import com.seoultech.gaemanda.chat.ChatService;
 import com.seoultech.gaemanda.member.Member;
 import com.seoultech.gaemanda.member.MemberService;
+import com.seoultech.gaemanda.room.Room;
+import com.seoultech.gaemanda.room.RoomService;
 import com.seoultech.gaemanda.util.DistanceUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +25,7 @@ public class MessageController {
   private final SimpMessageSendingOperations simpMessageSendingOperations;
   private final ChatService chatService;
   private final MemberService memberService;
+  private final RoomService roomService;
   private final Map<Long, MapInfo> map = new HashMap<>();
 
   @MessageMapping("/chat")
@@ -31,7 +34,8 @@ public class MessageController {
         message.getRoomId());
     simpMessageSendingOperations.convertAndSend("/sub/room/" + message.getRoomId(),
         message);
-    chatService.save(message.getRoomId(), message.getSenderId(), message.getMessage());
+    Room room = roomService.findById(message.getRoomId());
+    chatService.save(room, message.getSenderId(), message.getMessage());
   }
 
   @MessageMapping("/map")

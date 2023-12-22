@@ -20,14 +20,11 @@ import java.util.Map;
 public class ChatService {
 
   private final ChatRepository chatRepository;
-  private final RoomService roomService;
   private final MemberService memberService;
-  private final AlarmService alarmService;
   private final FcmMessageService fcmMessageService;
 
-  public Long save(Long roomId, Long senderId, String message) {
+  public Long save(Room room, Long senderId, String message) {
 
-    Room room = roomService.findById(roomId);
     Member sender = memberService.findByMemberId(senderId);
     Chat chat = new Chat(message, room, sender);
     Chat savedChat = chatRepository.save(chat);

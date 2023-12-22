@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +42,10 @@ public class RoomService {
   public Room findById(Long roomId) {
     return roomRepository.findById(roomId)
         .orElseThrow();
+  }
+
+  public Optional<Room> findByIdOptional(Long roomId) {
+    return roomRepository.findById(roomId);
   }
 
 }
